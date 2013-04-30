@@ -67,6 +67,18 @@ void main(){
 
 //=================================================================
 //
+// INPUT
+//
+//=================================================================
+
+void SetAlarms(){
+  char index = 0;
+  //toggle index with buttons on bottom row. take values with top three rows.
+  //set the indicated time to the selected switch. break when 15 is pressed, set another when 12 is pressed.
+}
+
+//=================================================================
+//
 // ALARM HHMM
 //
 //=================================================================
