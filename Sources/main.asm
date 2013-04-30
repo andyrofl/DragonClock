@@ -517,7 +517,7 @@ done	      pulx              ;restore X
 
 ;   write an integer to the LCD display
 ;   write_int_lcd(int);
-write_int_lcd:
+write_digit_lcd:
             pshd              ;save D
             bsr     zero_pad ;fill pad with blanks
             puld              ;get D
@@ -526,14 +526,14 @@ write_int_lcd:
             clr     dnum+1
             ldx     #pad
             jsr     sharps
-            ldx     #pad-5 
+            ldx     #pad-1 
 wd1	        ldab	  1,x+
 	          jsr	    data8		;display the ascii string
 	          cpx	    #pad
 	          blo	    wd1
 	          rts
 
-write_long_lcd:
+write_time_lcd:
             pshd              ;save D
             bsr     zero_pad ;fill pad with blanks
             puld              ;get D
@@ -542,7 +542,7 @@ write_long_lcd:
             clr     dnum+1
             ldx     #pad
             jsr     sharps
-            ldx     #pad-5 
+            ldx     #pad-2 
 wt1	        ldab	  1,x+
 	          jsr	    data8		;display the ascii string
 	          cpx	    #pad
@@ -551,7 +551,7 @@ wt1	        ldab	  1,x+
 zero_pad:
             ldx     #buff
             ldab    #13
-            ldaa    #$20    ;ascii blank
+            ldaa    #$30    ;ascii blank
 zp1:        staa    1,x+
             decb
             bne     zp1
