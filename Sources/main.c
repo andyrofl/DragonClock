@@ -7,6 +7,10 @@ char seconds; char minutes; char hours; char tickFlag;
 int ticks;
 char alarmTime[] = "01234567";
 
+void AddAlarm(char slot, char h, char m);
+void SetAlarms();
+char CheckAlarms();
+
 char CountTick();  //return 1 if need to update seconds. 2 if minutes. 3 if hours.
 void AddSecond();
 void AddMinute();
@@ -40,6 +44,11 @@ void main(){
       write_time_lcd(minutes);
       set_lcd_addr(0x06);
       write_time_lcd(seconds);
+      
+      if(CheckAlarms() > -1){
+        set_lcd_addr(0x40);
+        type_lcd("alarm"); 
+      }
     }
     else if(tickFlag == 3){
       set_lcd_addr(0x00);
@@ -55,6 +64,39 @@ void main(){
      
   }
 }
+
+//=================================================================
+//
+// ALARM HHMM
+//
+//=================================================================
+/**
+ * Add an alarm of h:m at index slot
+ */
+void AddAlarm(char slot, char h, char m){
+  alarmTime[slot] = (h * 100) + m;
+}        
+
+/**
+ * Check alarms.
+ * return index of alarm currently going off. -1 if none.
+ */
+char CheckAlarms(){
+  char i = -1;
+  char time;
+  for(i = 0; i < 8; i++){
+    if(alarmTime[i] != 0){
+      time = alarmTime[i];
+      if(time / 100 == hours){
+        if(time % 100 == minutes){
+          return i;
+        }
+      }
+    }
+  }
+  return -1;
+}
+
 //=================================================================
 //
 //  TIMER
